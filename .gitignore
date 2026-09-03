@@ -40,3 +40,15 @@ env/
 
 .idea/
 **/.idea/
+
+
+# Raw source data
+data/
+
+# dbt generated files
+target/
+dbt_packages/
+logs/
+
+# OS files
+.DS_Store
