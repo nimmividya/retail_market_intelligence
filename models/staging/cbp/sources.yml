@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: cbp
+    description: >
+      U.S. Census Bureau County Business Patterns (CBP)
+      source data used for retail market analysis.
+
+    database: RETAIL_MARKET_INTELLIGENCE
+    schema: RAW
+
+    tables:
+      - name: RAW_CBP
+        description: >
+          2023 County Business Patterns state-level source data.
+          The RAW table preserves the source file structure and
+          stores all source columns as VARCHAR to retain Census
+          suppression and status codes.

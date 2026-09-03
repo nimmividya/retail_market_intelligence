@@ -1,0 +1,42 @@
+# dbt artifacts
+target/
+logs/
+dbt_packages/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# dbt local profiles
+profiles.yml
+# dbt
+target/
+logs/
+dbt_packages/
+dbt_modules/          # legacy package folder name, older dbt versions
+.user.yml              # dbt Cloud user config, sometimes generated locally
+
+# Optional: local env files
+.env
+.venv/
+venv/
+dbt-env/
+env/
+
+# Optional: if you do not want compiled artifacts anywhere
+*.log
+
+.idea/
+**/.idea/

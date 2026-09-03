@@ -1,0 +1,22 @@
+name: 'retail_market_intelligence'
+version: '1.0.0'
+
+profile: 'retail_market_intelligence'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+models:
+  retail_market_intelligence:
+    staging:
+      +schema: STAGING
+
+    intermediate:
+      +schema: INTERMEDIATE
+
+clean-targets:
+  - "target"
+  - "dbt_packages"

@@ -1,0 +1,145 @@
+version: 2
+
+models:
+  - name: stg_cbp
+    description: >
+      Staging model for the U.S. Census Bureau 2023 County Business
+      Patterns (CBP) state-level data. The model renames source columns
+      into business-friendly names and converts numeric measures using
+      TRY_TO_NUMBER while preserving Census suppression/status flags.
+
+    columns:
+
+      - name: state_fips
+        description: >
+          Two-digit FIPS code identifying the U.S. state or area.
+        data_tests:
+          - not_null
+
+      - name: naics_code
+        description: >
+          NAICS industry classification code from the Census CBP source.
+        data_tests:
+          - not_null
+
+      - name: establishments
+        description: >
+          Number of establishments.
+        data_tests:
+          - not_null
+
+      - name: legal_form
+        description: >
+          Legal form of organization code supplied by the Census CBP source.
+
+      - name: employment_flag
+        description: >
+          Census non-disclosure or suppression flag associated with employment.
+
+      - name: employment
+        description: >
+          Number of employees. NULL indicates that the source value was
+          suppressed or otherwise could not be converted to a number.
+
+      - name: first_quarter_payroll_flag
+        description: >
+          Census non-disclosure or suppression flag associated with
+          first-quarter payroll.
+
+      - name: first_quarter_payroll
+        description: >
+          First-quarter payroll measure from the Census CBP source.
+
+      - name: annual_payroll_flag
+        description: >
+          Census non-disclosure or suppression flag associated with
+          annual payroll.
+
+      - name: annual_payroll
+        description: >
+          Annual payroll measure from the Census CBP source.
+
+      - name: establishments
+        description: >
+          Number of establishments.
+
+      - name: establishments_lt_5
+        description: >
+          Number of establishments with fewer than 5 employees.
+
+      - name: employment_lt_5
+        description: >
+          Employment associated with establishments having fewer than
+          5 employees. Census suppression may result in NULL.
+
+      - name: establishments_5_9
+        description: >
+          Number of establishments with 5 to 9 employees.
+
+      - name: employment_5_9
+        description: >
+          Employment associated with establishments having 5 to 9 employees.
+          Census suppression may result in NULL.
+
+      - name: establishments_10_19
+        description: >
+          Number of establishments with 10 to 19 employees.
+
+      - name: employment_10_19
+        description: >
+          Employment associated with establishments having 10 to 19 employees.
+          Census suppression may result in NULL.
+
+      - name: establishments_20_49
+        description: >
+          Number of establishments with 20 to 49 employees.
+
+      - name: employment_20_49
+        description: >
+          Employment associated with establishments having 20 to 49 employees.
+          Census suppression may result in NULL.
+
+      - name: establishments_50_99
+        description: >
+          Number of establishments with 50 to 99 employees.
+
+      - name: employment_50_99
+        description: >
+          Employment associated with establishments having 50 to 99 employees.
+          Census suppression may result in NULL.
+
+      - name: establishments_100_249
+        description: >
+          Number of establishments with 100 to 249 employees.
+
+      - name: employment_100_249
+        description: >
+          Employment associated with establishments having 100 to 249 employees.
+          Census suppression may result in NULL.
+
+      - name: establishments_250_499
+        description: >
+          Number of establishments with 250 to 499 employees.
+
+      - name: employment_250_499
+        description: >
+          Employment associated with establishments having 250 to 499 employees.
+          Census suppression may result in NULL.
+
+      - name: establishments_500_999
+        description: >
+          Number of establishments with 500 to 999 employees.
+
+      - name: employment_500_999
+        description: >
+          Employment associated with establishments having 500 to 999 employees.
+          Census suppression may result in NULL.
+
+      - name: establishments_1000_plus
+        description: >
+          Number of establishments with 1,000 or more employees.
+
+      - name: employment_1000_plus
+        description: >
+          Employment associated with establishments having 1,000 or more
+          employees. Census suppression may result in NULL.
