@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: mart_retail_state
+    description: >
+      State-level retail market metrics derived from County Business Patterns.
+      The grain is one row per state and reporting year.
+
+    columns:
+      - name: state_fips
+        description: U.S. Census state FIPS code.
+        data_tests:
+          - not_null
+
+      - name: data_year
+        description: Reporting year of the CBP dataset.
+        data_tests:
+          - not_null
+
+      - name: retail_naics_industries
+        description: >
+          Number of distinct 6-digit retail NAICS industries reported
+          for the state.
+
+      - name: total_establishments
+        description: Total number of retail establishments.
+
+      - name: total_employment
+        description: >
+          Total reported retail employment. NULL values in the underlying
+          data represent unavailable or suppressed values and are not
+          converted to zero.
+
+      - name: total_first_quarter_payroll_thousands
+        description: >
+          Total first-quarter retail payroll, reported in thousands of dollars.
+
+      - name: total_annual_payroll_thousands
+        description: >
+          Total annual retail payroll, reported in thousands of dollars.
+
+      - name: employment_reported_records
+        description: Number of retail industry records with reported employment.
+
+      - name: employment_unavailable_records
+        description: Number of retail industry records with unavailable employment.
+
+      - name: first_quarter_payroll_reported_records
+        description: >
+          Number of retail industry records with reported first-quarter payroll.
+
+      - name: first_quarter_payroll_unavailable_records
+        description: >
+          Number of retail industry records with unavailable first-quarter payroll.
+
+      - name: annual_payroll_reported_records
+        description: Number of retail industry records with reported annual payroll.
+
+      - name: annual_payroll_unavailable_records
+        description: >
+          Number of retail industry records with unavailable annual payroll.
