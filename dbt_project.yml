@@ -10,15 +10,9 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 
 models:
-    retail_market_intelligence:
-      staging:
-        +schema: STAGING
-
-      intermediate:
-        +schema: INTERMEDIATE
-
-      marts:
-        +schema: MARTS
+  retail_market_intelligence:
+    staging:
+      +schema: STAGING
 
 clean-targets:
   - "target"

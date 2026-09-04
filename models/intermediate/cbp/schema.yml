@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: int_cbp_retail
+    description: >
+      Detailed County Business Patterns records for U.S. retail industries,
+      at the grain of one state, one 6-digit NAICS industry, and one reporting year.
+
+    columns:
+      - name: state_fips
+        description: U.S. Census state FIPS code.
+        data_tests:
+          - not_null
+
+      - name: naics_code
+        description: 6-digit NAICS code for the retail industry.
+        data_tests:
+          - not_null
+
+      - name: data_year
+        description: Reporting year of the CBP dataset.
+        data_tests:
+          - not_null
+
+      - name: establishments
+        description: Number of business establishments.
+
+      - name: employment
+        description: Number of employees. NULL may represent Census suppression.
+
+      - name: employment_flag
+        description: Census status or suppression flag for employment.
+
+      - name: first_quarter_payroll
+        description: First-quarter payroll. NULL may represent Census suppression.
+
+      - name: first_quarter_payroll_flag
+        description: Census status or suppression flag for first-quarter payroll.
+
+      - name: annual_payroll
+        description: Annual payroll. NULL may represent Census suppression.
+
+      - name: annual_payroll_flag
+        description: Census status or suppression flag for annual payroll.
