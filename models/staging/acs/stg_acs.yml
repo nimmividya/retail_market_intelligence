@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: stg_acs
+    description: >
+      Staged 2024 ACS 5-Year State Comparison Profile data.
+      One row represents one state or territory for the
+      2020-2024 ACS estimate period.
+
+    columns:
+      - name: state_name
+        description: State or territory name.
+        tests:
+          - not_null
+
+      - name: state_fips
+        description: Two-digit Census state or territory FIPS code.
+        tests:
+          - not_null
+
+      - name: estimate_period
+        description: ACS 5-Year estimate period represented by the record.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - '2020-2024'
+
+      - name: total_population
+        description: Total population estimate.
+        tests:
+          - not_null
+
+      - name: median_household_income
+        description: Median household income in dollars.
+
+      - name: per_capita_income
+        description: Per capita income in dollars.
+
+      - name: pct_high_school_or_higher
+        description: Percentage of population age 25+ with high school diploma or higher.
+
+      - name: pct_bachelors_or_higher
+        description: Percentage of population age 25+ with bachelor's degree or higher.
+
+      - name: unemployment_rate
+        description: Civilian labor force unemployment rate.
+
+      - name: pct_families_below_poverty
+        description: Percentage of families below the poverty level.
+
+      - name: pct_people_below_poverty
+        description: Percentage of people below the poverty level.

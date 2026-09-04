@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: acs
+    description: >
+      U.S. Census Bureau American Community Survey (ACS)
+      2024 5-Year State Comparison Profiles used for
+      retail market analysis.
+
+    database: RETAIL_MARKET_INTELLIGENCE
+    schema: RAW
+
+    tables:
+      - name: RAW_ACS
+        description: >
+          2024 ACS 5-Year State Comparison Profiles source data.
+          The RAW table preserves the source file structure and
+          stores source columns as VARCHAR before type conversion
+          in the staging layer.
