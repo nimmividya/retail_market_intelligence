@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: stg_sqgdp1
+    description: >
+      Staging model for BEA State Quarterly GDP Summary (SQGDP1).
+      The source data is transformed from wide quarterly columns into
+      one row per geographic area, GDP series, and quarter.
+
+    columns:
+      - name: GEO_FIPS
+        description: >
+          BEA geographic FIPS code. Stored as a string to preserve
+          meaningful leading zeroes.
+
+      - name: GEO_NAME
+        description: >
+          Geographic area name.
+
+      - name: REGION
+        description: >
+          BEA region code.
+
+      - name: TABLE_NAME
+        description: >
+          BEA source table name. Expected value is SQGDP1.
+
+      - name: LINE_CODE
+        description: >
+          BEA GDP series line code. For SQGDP1, 1 represents Real GDP,
+          2 represents the Chain-type Quantity Index, and 3 represents
+          Current-dollar GDP.
+
+      - name: INDUSTRY_CLASSIFICATION
+        description: >
+          BEA industry classification associated with the GDP series.
+
+      - name: DESCRIPTION
+        description: >
+          Description of the GDP series.
+
+      - name: UNIT
+        description: >
+          Measurement unit for the GDP series.
+
+      - name: QUARTER
+        description: >
+          Calendar quarter represented in YYYY:Qn format, from 2005:Q1
+          through 2026:Q1.
+
+      - name: GDP_VALUE
+        description: >
+          GDP or quantity-index value for the geographic area, GDP
+          series, and quarter.
+
+      - name: BUSINESS_KEY
+        description: >
+          MD5 hash generated from GEO_FIPS, LINE_CODE, and QUARTER.
+          Uniquely identifies one geographic area, GDP series, and
+          quarter.
+        tests:
+          - unique
+          - not_null
