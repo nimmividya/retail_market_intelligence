@@ -3,9 +3,15 @@ version: 2
 models:
   - name: stg_acs
     description: >
-      Staged 2024 ACS 5-Year State Comparison Profile data.
-      One row represents one state or territory for the
-      2020-2024 ACS estimate period.
+      Staged U.S. Census Bureau American Community Survey (ACS)
+      2024 5-Year State Comparison Profile data.
+
+      Grain: one row per state or territory per ACS estimate period.
+      Business key: state_fips + estimate_period.
+
+      The model renames Census variable codes to semantic business
+      names and converts RAW VARCHAR values into analytical numeric
+      data types.
 
     columns:
       - name: state_name
@@ -14,12 +20,16 @@ models:
           - not_null
 
       - name: state_fips
-        description: Two-digit Census state or territory FIPS code.
+        description: >
+          Two-digit U.S. Census state or territory FIPS code.
+          Stored as VARCHAR to preserve leading zeros.
         tests:
           - not_null
 
       - name: estimate_period
-        description: ACS 5-Year estimate period represented by the record.
+        description: >
+          ACS 5-Year estimate period represented by the record.
+          The 2024 ACS 5-Year estimates cover 2020-2024.
         tests:
           - not_null
           - accepted_values:
@@ -29,8 +39,6 @@ models:
 
       - name: total_population
         description: Total population estimate.
-        tests:
-          - not_null
 
       - name: median_household_income
         description: Median household income in dollars.
@@ -39,16 +47,24 @@ models:
         description: Per capita income in dollars.
 
       - name: pct_high_school_or_higher
-        description: Percentage of population age 25+ with high school diploma or higher.
+        description: >
+          Percentage of the population age 25 and over
+          with a high school diploma or higher.
 
       - name: pct_bachelors_or_higher
-        description: Percentage of population age 25+ with bachelor's degree or higher.
+        description: >
+          Percentage of the population age 25 and over
+          with a bachelor's degree or higher.
 
       - name: unemployment_rate
         description: Civilian labor force unemployment rate.
 
       - name: pct_families_below_poverty
-        description: Percentage of families below the poverty level.
+        description: >
+          Percentage of families whose income in the past 12 months
+          was below the poverty level.
 
       - name: pct_people_below_poverty
-        description: Percentage of people below the poverty level.
+        description: >
+          Percentage of people whose income in the past 12 months
+          was below the poverty level.

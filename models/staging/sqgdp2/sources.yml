@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw
+    database: RETAIL_MARKET_INTELLIGENCE
+    schema: RAW
+
+    tables:
+      - name: raw_sqgdp2

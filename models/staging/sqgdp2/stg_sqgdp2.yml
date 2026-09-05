@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: stg_sqgdp2
+    description: >
+      Staging model for BEA State Quarterly GDP by industry data.
+      The source's quarterly columns are unpivoted so that each row
+      represents one geographic area, GDP series, and quarter.
+
+    columns:
+
+      - name: GEO_FIPS
+        description: "BEA geographic FIPS identifier."
+
+      - name: GEO_NAME
+        description: "Geographic area name."
+
+      - name: REGION
+        description: "BEA geographic region."
+
+      - name: TABLE_NAME
+        description: "BEA source table identifier."
+
+      - name: LINE_CODE
+        description: "BEA GDP series line code."
+
+      - name: INDUSTRY_CLASSIFICATION
+        description: "BEA industry classification."
+
+      - name: DESCRIPTION
+        description: "Description of the GDP series."
+
+      - name: UNIT
+        description: "Measurement unit for the GDP value."
+
+      - name: QUARTER
+        description: "Quarter represented by the observation, e.g. 2025:Q1."
+
+      - name: GDP_VALUE
+        description: "GDP value for the geographic area, series, and quarter."
+
+      - name: GDP_BUSINESS_KEY
+        description: >
+          Composite business key consisting of GEO_FIPS, LINE_CODE,
+          INDUSTRY_CLASSIFICATION, and QUARTER.
