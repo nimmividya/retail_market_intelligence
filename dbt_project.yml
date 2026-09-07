@@ -11,8 +11,18 @@ macro-paths: ["macros"]
 
 models:
   retail_market_intelligence:
+
     staging:
       +schema: STAGING
+
+    intermediate:
+      +schema: INTERMEDIATE
+
+    marts:
+      +schema: MARTS
+
+    analytics:
+      +schema: ANALYTICS
 
 clean-targets:
   - "target"

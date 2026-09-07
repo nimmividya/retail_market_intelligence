@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: int_sqgdp1_total
+    description: >
+      Annual total real GDP by U.S. state derived from the quarterly
+      SQGDP1 Real GDP series. Quarterly GDP values are averaged to
+      calculate the annual GDP level. U.S. totals and BEA regional
+      aggregates are excluded.
+
+    columns:
+
+      - name: GEO_FIPS
+        description: >
+          Five-digit FIPS code identifying the U.S. state.
+        tests:
+          - not_null
+
+      - name: GEO_NAME
+        description: >
+          Name of the U.S. state.
+        tests:
+          - not_null
+
+      - name: YEAR
+        description: >
+          Calendar year derived from the quarterly observation.
+        tests:
+          - not_null
+
+      - name: TOTAL_GDP_ANNUAL
+        description: >
+          Annual real GDP in millions of chained 2017 dollars,
+          calculated as the average of the four quarterly
+          seasonally adjusted annual-rate GDP observations.
+        tests:
+          - not_null
+
+      - name: QUARTERS_AVAILABLE
+        description: >
+          Number of quarterly GDP observations available for the state
+          and year. The intermediate model retains only complete years.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+               values: [4]
+
+      - name: GDP_BUSINESS_KEY
+        description: >
+          Business key constructed from state FIPS and year.
+        tests:
+          - not_null
+          - unique

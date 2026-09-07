@@ -13,7 +13,7 @@ WITH source AS (
 unpivoted AS (
 
     SELECT
-        "GeoFIPS" AS GEO_FIPS,
+        REPLACE("GeoFIPS", '"', '') AS GEO_FIPS,
         "GeoName" AS GEO_NAME,
         "Region" AS REGION,
         "TableName" AS TABLE_NAME,
