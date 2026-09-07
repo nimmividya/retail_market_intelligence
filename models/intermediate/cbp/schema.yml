@@ -42,3 +42,41 @@ models:
 
       - name: annual_payroll_flag
         description: Census status or suppression flag for annual payroll.
+
+  - name: int_retail_business
+    description: >
+      State-level retail business metrics for 2023 derived from the
+      County Business Patterns dataset. The model contains one row
+      per state and year and preserves Census employment and payroll
+      suppression/status flags.
+
+    columns:
+      - name: state_fips
+        description: Two-digit U.S. Census state FIPS code.
+        data_tests:
+          - not_null
+
+      - name: year
+        description: Reporting year of the CBP dataset.
+        data_tests:
+          - not_null
+
+      - name: retail_establishments
+        description: Number of retail trade establishments.
+
+      - name: retail_employment
+        description: Number of employees in retail trade. NULL may represent Census suppression.
+
+      - name: retail_annual_payroll
+        description: Annual payroll for retail trade. NULL may represent Census suppression.
+
+      - name: employment_flag
+        description: Census status or suppression flag for employment.
+
+      - name: annual_payroll_flag
+        description: Census status or suppression flag for annual payroll.
+
+      - name: business_key
+        description: Surrogate key generated from STATE_FIPS and YEAR.
+        data_tests:
+          - not_null
