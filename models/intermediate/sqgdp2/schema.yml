@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: int_sqgdp2_retail
+    description: >
+      Intermediate model containing annual Retail Trade GDP for U.S. states.
+      Quarterly BEA SQGDP2 observations are aggregated to one row per state
+      and year. U.S. and BEA regional aggregates are excluded.
+
+    columns:
+
+      - name: GEO_FIPS
+        description: "BEA geographic FIPS identifier for the state."
+
+      - name: GEO_NAME
+        description: "State name."
+
+      - name: YEAR
+        description: "Calendar year of the annual Retail Trade GDP measure."
+
+      - name: RETAIL_GDP_ANNUAL
+        description: >
+          Annual Retail Trade GDP calculated by summing the four quarterly
+          Retail Trade GDP observations for the state and year.
+          Measured in millions of current dollars.
+
+      - name: QUARTERS_AVAILABLE
+        description: >
+          Number of quarterly Retail Trade GDP observations available for
+          the state and year. A complete year normally has four observations.
+
+      - name: GDP_BUSINESS_KEY
+        description: >
+          Composite business key consisting of GEO_FIPS and YEAR.
+          Represents the state-year grain of this intermediate model.

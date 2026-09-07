@@ -100,6 +100,8 @@ WITH source_data AS (
 
     FROM {{ source('raw', 'raw_sqgdp2') }}
 
+    WHERE GEO_FIPS <> 'GeoFIPS'
+
 ),
 
 unpivoted AS (
@@ -117,6 +119,7 @@ unpivoted AS (
         GDP_VALUE
 
     FROM source_data
+
     UNPIVOT (
         GDP_VALUE FOR QUARTER IN (
             "2005:Q1",
