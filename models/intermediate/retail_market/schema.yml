@@ -1,0 +1,88 @@
+version: 2
+
+models:
+  - name: int_retail_market
+    description: >
+      Combines 2023 retail business activity from County Business Patterns
+      with total state GDP from SQGDP1 and retail trade GDP from SQGDP2.
+      The model represents retail-market fundamentals for each U.S. state
+      at the State × Year grain.
+
+    columns:
+      - name: STATE_FIPS
+        description: >
+          Two-digit U.S. state FIPS code.
+        tests:
+          - not_null
+
+      - name: STATE_NAME
+        description: >
+          State name from the SQGDP1 dataset.
+        tests:
+          - not_null
+
+      - name: YEAR
+        description: >
+          Calendar year of the retail-market measures. This model is
+          currently restricted to 2023.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2023]
+
+      - name: RETAIL_ESTABLISHMENTS
+        description: >
+          Number of retail establishments reported by County Business
+          Patterns for the state and year.
+
+      - name: RETAIL_EMPLOYMENT
+        description: >
+          Retail employment reported by County Business Patterns for the
+          state and year.
+
+      - name: RETAIL_ANNUAL_PAYROLL
+        description: >
+          Annual retail payroll reported by County Business Patterns for
+          the state and year.
+
+      - name: EMPLOYMENT_FLAG
+        description: >
+          Census status or suppression flag associated with the retail
+          employment value.
+
+      - name: ANNUAL_PAYROLL_FLAG
+        description: >
+          Census status or suppression flag associated with the retail
+          annual payroll value.
+
+      - name: TOTAL_GDP_ANNUAL
+        description: >
+          Annual total state GDP in millions of current dollars,
+          calculated from four complete quarterly observations in SQGDP1.
+
+      - name: RETAIL_GDP_ANNUAL
+        description: >
+          Annual retail trade GDP in millions of current dollars,
+          calculated from four complete quarterly observations in SQGDP2.
+
+      - name: TOTAL_GDP_QUARTERS_AVAILABLE
+        description: >
+          Number of quarterly total GDP observations used to calculate
+          annual total GDP.
+
+      - name: RETAIL_GDP_QUARTERS_AVAILABLE
+        description: >
+          Number of quarterly retail GDP observations used to calculate
+          annual retail GDP.
+
+      - name: RETAIL_GDP_SHARE
+        description: >
+          Share of total state GDP attributable to retail trade,
+          calculated as retail GDP divided by total GDP.
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "STATE_FIPS || '-' || YEAR"
