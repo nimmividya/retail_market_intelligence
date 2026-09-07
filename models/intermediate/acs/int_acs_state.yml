@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: int_acs_state
+    description: >
+      State-level analytical model derived from the American Community
+      Survey (ACS) 2024 5-Year State Comparison Profile.
+
+      The model provides demographic, income, education, labor-market,
+      and poverty indicators for U.S. states and Washington, DC.
+
+      Puerto Rico is excluded from the analytical state profile.
+
+      Grain: one row per U.S. state or Washington, DC per ACS estimate period.
+      Business key: state_fips + estimate_period.
+
+    columns:
+      - name: state_fips
+        description: >
+          Two-digit U.S. Census state or territory FIPS code.
+          Puerto Rico (72) is excluded from this model.
+        tests:
+          - not_null
+
+      - name: state_name
+        description: >
+          State or Washington, DC name.
+        tests:
+          - not_null
+
+      - name: estimate_period
+        description: >
+          ACS 5-Year estimate period represented by the record.
+          The 2024 ACS 5-Year estimates cover 2020-2024.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - '2020-2024'
+
+      - name: acs_business_key
+        description: >
+          Unique business key constructed from state FIPS code and
+          ACS estimate period.
+        tests:
+          - not_null
+          - unique
+
+      - name: total_population
+        description: >
+          Total population estimate for the state or Washington, DC.
+
+      - name: median_household_income
+        description: >
+          Median household income in dollars.
+
+      - name: per_capita_income
+        description: >
+          Per capita income in dollars.
+
+      - name: pct_high_school_or_higher
+        description: >
+          Percentage of the population age 25 and over with a
+          high school diploma or higher.
+
+      - name: pct_bachelors_or_higher
+        description: >
+          Percentage of the population age 25 and over with a
+          bachelor's degree or higher.
+
+      - name: unemployment_rate
+        description: >
+          Civilian labor force unemployment rate.
+
+      - name: pct_families_below_poverty
+        description: >
+          Percentage of families whose income in the past 12 months
+          was below the poverty level.
+
+      - name: pct_people_below_poverty
+        description: >
+          Percentage of people whose income in the past 12 months
+          was below the poverty level.
