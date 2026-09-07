@@ -1,13 +1,22 @@
-{{ config(materialized='view') }}
+{{ config(
+    materialized='view',
+    schema='INTERMEDIATE'
+) }}
 
-WITH retail_gdp AS (
+WITH quarterly_data AS (
 
     SELECT
         GEO_FIPS,
         GEO_NAME,
         QUARTER,
-        GDP_VALUE
+        GDP_VALUE,
+
+        TRY_TO_NUMBER(
+            LEFT(QUARTER, 4)
+        ) AS YEAR
+
     FROM {{ ref('stg_sqgdp2') }}
+
     WHERE LINE_CODE = '35'
       AND INDUSTRY_CLASSIFICATION = '44-45'
       AND GEO_FIPS NOT IN (
@@ -24,43 +33,40 @@ WITH retail_gdp AS (
 
 ),
 
-annual_retail_gdp AS (
+annual_data AS (
 
     SELECT
         GEO_FIPS,
         GEO_NAME,
+        YEAR,
 
-        LEFT(QUARTER, 4) AS YEAR,
+        AVG(GDP_VALUE) AS RETAIL_GDP_ANNUAL,
 
-        SUM(GDP_VALUE) AS RETAIL_GDP_ANNUAL,
+        COUNT(GDP_VALUE) AS QUARTERS_AVAILABLE
 
-        COUNT_IF(GDP_VALUE IS NOT NULL) AS QUARTERS_AVAILABLE
-
-    FROM retail_gdp
+    FROM quarterly_data
 
     GROUP BY
         GEO_FIPS,
         GEO_NAME,
-        LEFT(QUARTER, 4)
-
-),
-
-final AS (
-
-    SELECT
-        GEO_FIPS,
-        GEO_NAME,
-        TRY_TO_NUMBER(YEAR) AS YEAR,
-        RETAIL_GDP_ANNUAL,
-        QUARTERS_AVAILABLE,
-
-        GEO_FIPS
-            || '|'
-            || YEAR AS GDP_BUSINESS_KEY
-
-    FROM annual_retail_gdp
+        YEAR
 
 )
 
-SELECT *
-FROM final
+SELECT
+    GEO_FIPS,
+    GEO_NAME,
+    YEAR,
+    RETAIL_GDP_ANNUAL,
+    QUARTERS_AVAILABLE,
+
+    CONCAT(
+        'SQGDP2_RETAIL_',
+        GEO_FIPS,
+        '_',
+        YEAR
+    ) AS RETAIL_GDP_BUSINESS_KEY
+
+FROM annual_data
+
+WHERE QUARTERS_AVAILABLE = 4

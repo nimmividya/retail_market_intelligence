@@ -3,33 +3,54 @@ version: 2
 models:
   - name: int_sqgdp2_retail
     description: >
-      Intermediate model containing annual Retail Trade GDP for U.S. states.
-      Quarterly BEA SQGDP2 observations are aggregated to one row per state
-      and year. U.S. and BEA regional aggregates are excluded.
+      Annual retail trade GDP by U.S. state derived from the quarterly
+      SQGDP2 Retail Trade series. Quarterly GDP values are averaged to
+      calculate the annual GDP level. U.S. totals and BEA regional
+      aggregates are excluded.
 
     columns:
-
       - name: GEO_FIPS
-        description: "BEA geographic FIPS identifier for the state."
+        description: >
+          Five-digit FIPS code identifying the U.S. state.
+        tests:
+          - not_null
 
       - name: GEO_NAME
-        description: "State name."
+        description: >
+          Name of the U.S. state.
+        tests:
+          - not_null
 
       - name: YEAR
-        description: "Calendar year of the annual Retail Trade GDP measure."
+        description: >
+          Calendar year derived from the quarterly observation.
+        tests:
+          - not_null
 
       - name: RETAIL_GDP_ANNUAL
         description: >
-          Annual Retail Trade GDP calculated by summing the four quarterly
-          Retail Trade GDP observations for the state and year.
-          Measured in millions of current dollars.
+          Annual retail trade GDP in millions of current dollars,
+          calculated as the average of the four quarterly
+          seasonally adjusted annual-rate GDP observations.
+        tests:
+          - not_null
 
       - name: QUARTERS_AVAILABLE
         description: >
-          Number of quarterly Retail Trade GDP observations available for
-          the state and year. A complete year normally has four observations.
+          Number of quarterly retail GDP observations available for
+          the state and year. The intermediate model retains only
+          complete years.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [ 4 ]
 
-      - name: GDP_BUSINESS_KEY
+      - name: RETAIL_GDP_BUSINESS_KEY
         description: >
-          Composite business key consisting of GEO_FIPS and YEAR.
-          Represents the state-year grain of this intermediate model.
+          Business key constructed from the state FIPS code and year.
+        tests:
+          - not_null
+          - unique
+
+

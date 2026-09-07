@@ -1,0 +1,6 @@
+SELECT
+    RETAIL_GDP_BUSINESS_KEY
+FROM {{ ref('int_sqgdp2_retail') }}
+GROUP BY
+    RETAIL_GDP_BUSINESS_KEY
+HAVING COUNT(*) > 1
