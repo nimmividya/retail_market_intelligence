@@ -1,0 +1,55 @@
+version: 2
+
+models:
+
+  - name: analytics_retail_market_state
+    description: >
+      State-level retail market analytics for 2023, including retail
+      market metrics and comparative rankings across states and the
+      District of Columbia.
+
+    columns:
+
+      - name: STATE_FIPS
+        description: State FIPS code.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: STATE_NAME
+        description: State or District of Columbia name.
+        data_tests:
+          - not_null
+
+      - name: YEAR
+        description: Data year.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2023]
+
+      - name: RETAIL_GDP_SHARE
+        description: >
+          Retail trade GDP as a share of total state GDP.
+
+      - name: RETAIL_GDP_SHARE_RANK
+        description: >
+          Rank of each state by retail GDP share, with 1 representing
+          the highest retail GDP share.
+        data_tests:
+          - not_null
+
+      - name: RETAIL_EMPLOYMENT_RANK
+        description: >
+          Rank of each state by retail employment, with 1 representing
+          the highest retail employment.
+        data_tests:
+          - not_null
+
+      - name: RETAIL_GDP_PER_EMPLOYEE_RANK
+        description: >
+          Rank of each state by retail GDP per retail employee, with
+          1 representing the highest value.
+        data_tests:
+          - not_null
