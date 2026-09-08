@@ -59,3 +59,74 @@ models:
       - name: annual_payroll_unavailable_records
         description: >
           Number of retail industry records with unavailable annual payroll.
+
+
+  - name: mart_retail_market_state
+    description: >
+      State-level retail market analysis combining retail business activity
+      from County Business Patterns with total state GDP and retail trade GDP
+      from the Bureau of Economic Analysis. The grain is one row per state
+      and reporting year.
+
+    columns:
+      - name: state_fips
+        description: Two-digit U.S. Census state FIPS code.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: state_name
+        description: State or District of Columbia name.
+        data_tests:
+          - not_null
+
+      - name: year
+        description: Reporting year. Currently limited to 2023.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2023]
+
+      - name: retail_establishments
+        description: >
+          Number of retail establishments in the state.
+
+      - name: retail_employment
+        description: >
+          Number of reported retail employees in the state.
+
+      - name: retail_annual_payroll
+        description: >
+          Annual retail payroll in thousands of dollars from
+          County Business Patterns.
+
+      - name: total_gdp_annual
+        description: >
+          Annual total state GDP in millions of current dollars,
+          calculated from four quarterly BEA observations.
+
+      - name: retail_gdp_annual
+        description: >
+          Annual retail trade GDP in millions of current dollars,
+          calculated from four quarterly BEA observations.
+
+      - name: retail_gdp_share
+        description: >
+          Retail trade GDP divided by total state GDP.
+
+      - name: retail_employment_per_establishment
+        description: >
+          Average retail employment per retail establishment.
+
+      - name: retail_payroll_per_employee
+        description: >
+          Annual retail payroll in thousands of dollars per retail employee.
+
+      - name: retail_gdp_per_establishment
+        description: >
+          Annual retail GDP in millions of dollars per retail establishment.
+
+      - name: retail_gdp_per_retail_employee
+        description: >
+          Annual retail GDP in millions of dollars per retail employee.
