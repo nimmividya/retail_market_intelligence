@@ -43,5 +43,3 @@ Thumbs.db
 # Raw source data
 # ============================================================
 data/
-# Local source data files
-data/*.csv
