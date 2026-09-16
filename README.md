@@ -29,7 +29,7 @@ The project intentionally keeps these measures separate rather than combining th
 
 ## Dashboard Preview
 
-![U.S. Retail Market Intelligence Dashboard](tableau/dashboard_screenshot.png)
+![Retail Market Intelligence Dashboard](tableau/Screenshot%202026-09-09%20at%2014.54.06.png)
 
 The Tableau dashboard presents the 2023 state-level retail-market analysis, including retail GDP, employment, establishments, payroll, GDP share, and geographic distribution.
 
