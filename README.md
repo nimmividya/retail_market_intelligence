@@ -403,31 +403,6 @@ Testing includes:
 * **Business-key validation** — Confirms that models maintain their intended grain and uniqueness.
 * **Analytical ranking validation** — Confirms that the state rankings produce the expected number of distinct ranks.
 
-### Full Project Validation
-
-The complete dbt project was validated using:
-
-```bash
-dbt build
-```
-
-Final validation results:
-
-| Validation             | Result |
-| ---------------------- | -----: |
-| dbt Models             |     14 |
-| Data Tests             |     68 |
-| Total Build Operations |     82 |
-| Passed                 |     82 |
-| Warnings               |      0 |
-| Errors                 |      0 |
-| Skipped                |      0 |
-
-**Final result: 82/82 operations passed successfully.**
-
-This provides confidence that the transformed datasets meet the defined structural, integrity, and business-rule requirements before being consumed by Tableau.
-
-The project also uses `dbt docs generate` to generate documentation and a data catalog for the models, sources, columns, and relationships in the dbt project.
 
 ### Full Project Validation
 
