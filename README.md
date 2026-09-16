@@ -1,44 +1,45 @@
 # U.S. Retail Market Intelligence System
 
-## Business Problem
+An end-to-end **Analytics Engineering project** using Snowflake, dbt, SQL, Python, and Tableau to analyze U.S. retail-market fundamentals.
 
-Retail businesses, investors, and market analysts need to understand which U.S. states offer the strongest retail-market fundamentals. However, retail performance cannot be evaluated effectively using a single metric such as total employment, number of establishments, or GDP alone.
+## Business Question
 
-The challenge is to combine multiple government data sources to create a consistent state-level view of the retail market and identify differences in:
+> **Which U.S. states have the strongest retail-market fundamentals, and what measurable economic and business factors explain that strength?**
+
+Retail-market strength cannot be evaluated effectively using a single metric such as employment, number of establishments, or GDP alone.
+
+This project integrates multiple U.S. government datasets to create a consistent state-level view of:
 
 * Retail business activity
 * Retail employment
 * Retail payroll
-* Overall state economic output
+* Total state economic output
 * Retail industry's contribution to state GDP
-* Retail GDP relative to employment and establishments
+* Retail economic output relative to employment and establishments
 
-The business problem this project addresses is:
+The analysis evaluates retail markets from three complementary perspectives:
 
-> **Which U.S. states have the strongest retail-market fundamentals, and what factors distinguish stronger retail markets from weaker ones?**
+* **Retail GDP Share** — the relative contribution of retail to the state economy
+* **Retail Employment** — the scale of the retail workforce
+* **Retail GDP per Employee** — retail economic output relative to retail employment
 
-The analysis provides a standardized, state-level dataset that can be used to compare retail-market size, economic contribution, and productivity across U.S. states.
+The project intentionally keeps these measures separate rather than combining them into a subjective composite score.
+
+---
+
+## Dashboard Preview
+
+![U.S. Retail Market Intelligence Dashboard](tableau/dashboard_screenshot.png)
+
+The Tableau dashboard presents the 2023 state-level retail-market analysis, including retail GDP, employment, establishments, payroll, GDP share, and geographic distribution.
+
+---
 
 ## Project Objective
 
-The objective of this project is to build a reliable, analytics-ready data platform that combines U.S. government economic and business datasets to evaluate retail-market fundamentals across U.S. states.
+The objective is to build a reliable, tested, and analytics-ready data platform that transforms public government data into business-facing retail-market intelligence.
 
-The project aims to:
-
-* Integrate retail business, employment, payroll, and GDP data from multiple government sources.
-* Build a structured **Snowflake → dbt** data transformation pipeline using Staging, Intermediate, Marts, and Analytics layers.
-* Standardize geographic identifiers and align source datasets to a common **State × Year** analytical grain.
-* Create consistent business metrics for retail-market size, economic contribution, and productivity.
-* Apply dbt data tests to validate data quality, model integrity, and business rules throughout the transformation pipeline.
-* Produce a final analytical dataset suitable for direct consumption by BI and visualization tools.
-* Develop a Tableau dashboard that enables users to compare retail-market fundamentals across U.S. states.
-* Demonstrate an end-to-end **Analytics Engineering workflow**, from raw government data through tested analytical models to business-facing insights.
-
-The final analytical output is designed to provide a consistent foundation for evaluating differences in retail-market scale, economic importance, employment, and productivity across U.S. states.
-
-## Architecture
-
-The project follows a layered Analytics Engineering architecture designed to separate raw data ingestion, source-specific transformations, business logic, curated datasets, and analytical outputs.
+The project demonstrates an end-to-end Analytics Engineering workflow:
 
 ```text
 Government Data Sources
@@ -50,7 +51,7 @@ Government Data Sources
     dbt STAGING
         │
         ▼
- dbt INTERMEDIATE
+  dbt INTERMEDIATE
         │
         ▼
      dbt MARTS
@@ -59,39 +60,81 @@ Government Data Sources
    dbt ANALYTICS
         │
         ▼
-       CSV
+   Analytics CSV
         │
         ▼
-   Tableau Dashboard
+ Tableau Dashboard
 ```
 
-### Layer Responsibilities
+### Key Objectives
+
+* Integrate retail business, employment, payroll, and GDP data from multiple government sources.
+* Standardize geographic identifiers and source-specific data structures.
+* Transform source data through modular dbt models.
+* Maintain clearly defined model grains throughout the pipeline.
+* Apply automated data-quality tests to validate transformations.
+* Produce a stable analytical dataset for BI consumption.
+* Create a Tableau dashboard for state-level retail-market analysis.
+* Demonstrate practical Analytics Engineering principles from raw data to business-facing analytics.
+
+---
+
+# Architecture
+
+The project follows a layered Analytics Engineering architecture that separates raw data, source-specific transformations, business logic, curated datasets, and analytical outputs.
+
+```text
+Government Data Sources
+        │
+        ▼
+   Snowflake RAW
+        │
+        ▼
+    dbt STAGING
+        │
+        ▼
+  dbt INTERMEDIATE
+        │
+        ▼
+     dbt MARTS
+        │
+        ▼
+   dbt ANALYTICS
+        │
+        ▼
+   Analytics CSV
+        │
+        ▼
+ Tableau Dashboard
+```
+
+## Layer Responsibilities
 
 | Layer            | Purpose                                                                                                                      |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| **RAW**          | Stores the source data in Snowflake while preserving the original source information.                                        |
+| **RAW**          | Stores source data in Snowflake while preserving the original source information.                                            |
 | **STAGING**      | Cleans and standardizes source-specific data, including column names, data types, geographic identifiers, and source values. |
 | **INTERMEDIATE** | Applies reusable business transformations and integrates related datasets into consistent business concepts.                 |
 | **MARTS**        | Produces curated, business-ready datasets at a consistent State × Year grain.                                                |
-| **ANALYTICS**    | Creates analysis-ready metrics and rankings used to answer the project's business question.                                  |
+| **ANALYTICS**    | Creates analysis-ready metrics and rankings used to answer the business question.                                            |
 | **Tableau**      | Presents the final analytical results through an interactive business dashboard.                                             |
 
-### Design Principles
+## Design Principles
 
 The architecture follows several Analytics Engineering principles:
 
-* **Separation of concerns** — Source cleaning, business transformations, dimensional modeling, and analytical calculations are handled in separate layers.
-* **Modular transformations** — Business logic is divided into reusable dbt models rather than implemented in a single large transformation.
-* **Consistent grain** — The final marts and analytics model use a defined **State × Year** grain.
-* **Source preservation** — Raw government data is preserved in Snowflake before transformation.
+* **Separation of concerns** — source cleaning, business transformations, dimensional modeling, and analytical calculations are handled in separate layers.
+* **Modular transformations** — business logic is divided into reusable dbt models rather than implemented in a single large transformation.
+* **Consistent grain** — final marts and analytics models use a defined State × Year grain.
+* **Source preservation** — raw government data is preserved in Snowflake before transformation.
 * **Tested transformations** — dbt tests validate data integrity and business rules throughout the transformation pipeline.
-* **BI-ready outputs** — The Analytics layer provides a stable interface for Tableau and other downstream analytical tools.
+* **BI-ready outputs** — the Analytics layer provides a stable interface for Tableau and other downstream analytical tools.
 
-This architecture allows the project to evolve from a single-year analysis into a multi-year retail-market intelligence platform as additional comparable source data becomes available.
+---
 
-## Data Pipeline
+# Data Pipeline
 
-The data pipeline moves the government source data through a series of controlled transformation layers before delivering the final analytical output to Tableau.
+The pipeline moves government source data through controlled transformation layers before delivering the final analytical output to Tableau.
 
 ```text
 Government CSV Files
@@ -111,101 +154,141 @@ Analytics CSV
 Tableau Dashboard
 ```
 
-### Pipeline Flow
+## Pipeline Flow
 
-**1. Government CSV Files**
+### 1. Government CSV Files
 
 Publicly available datasets from the U.S. Census Bureau and U.S. Bureau of Economic Analysis are downloaded as CSV files.
 
-**2. Snowflake RAW**
+### 2. Snowflake RAW
 
-The source files are loaded into Snowflake RAW tables. Raw source information is preserved before transformation, including Census suppression and status codes in the CBP data.
+The source files are loaded into Snowflake RAW tables.
 
-**3. dbt STAGING**
+The raw source information is preserved before transformation, including Census suppression and status codes in the County Business Patterns data.
 
-The staging models clean and standardize the raw data. This includes geographic identifier cleaning, column standardization, data-type conversion, source-specific filtering, and preparation of the datasets for downstream transformations.
+### 3. dbt STAGING
 
-**4. dbt INTERMEDIATE**
+The staging models clean and standardize the raw data.
 
-The intermediate layer applies the core business logic. Retail industries are aggregated, quarterly GDP data is transformed into annual measures, Retail Trade GDP is separated from total GDP, and the datasets are integrated at the required business grain.
+This includes:
 
-**5. dbt MARTS**
+* Geographic identifier cleaning
+* Column standardization
+* Data-type conversion
+* Source-specific filtering
+* Preparation of datasets for downstream transformations
 
-The marts layer combines the transformed business concepts into curated, business-ready datasets at a consistent **State × Year** grain.
+The staging layer remains closely aligned with the original source structure.
 
-**6. dbt ANALYTICS**
+### 4. dbt INTERMEDIATE
 
-The analytics layer produces the final analytical model, including retail GDP share, productivity metrics, and state-level rankings used to compare retail-market fundamentals.
+The intermediate layer applies the core business logic.
 
-**7. Analytics CSV**
+Transformations include:
+
+* Aggregating retail industries
+* Transforming quarterly GDP observations into annual measures
+* Separating Retail Trade GDP from total GDP
+* Integrating business and economic datasets
+* Creating derived business metrics
+* Aligning datasets to the required analytical grain
+
+### 5. dbt MARTS
+
+The marts layer combines the transformed business concepts into curated, business-ready datasets at a consistent State × Year grain.
+
+### 6. dbt ANALYTICS
+
+The analytics layer produces the final analytical model, including:
+
+* Retail GDP share
+* Retail employment
+* Productivity metrics
+* State-level rankings
+
+### 7. Analytics CSV
 
 The final analytics dataset is exported from Snowflake as a CSV for downstream visualization.
 
-**8. Tableau Dashboard**
+### 8. Tableau Dashboard
 
-The analytical output is connected to Tableau to create the **Retail Market Intelligence** dashboard, presenting key retail-market KPIs, geographic distribution, and state rankings for 2023.
+The analytical output is connected to Tableau to create the Retail Market Intelligence dashboard.
 
-This pipeline separates data preparation, transformation, business logic, and presentation, creating a reproducible workflow from raw government data to business-facing analytics.
+The dashboard presents key retail-market KPIs, geographic distribution, and state rankings for 2023.
 
+---
 
-## Data Sources
+# Data Sources
 
 This project uses publicly available data from the U.S. Census Bureau and the U.S. Bureau of Economic Analysis (BEA).
 
-| Source | Dataset | CSV File | Purpose |
-|---|---|---|---|
-| U.S. Census Bureau | American Community Survey (ACS) 2024 5-Year Estimates — Comparison Profiles | `ACS_2024_5Year_State_Comparison_Profiles.csv` | State population and demographic context |
-| U.S. Census Bureau | County Business Patterns (CBP) 2023 — State File | `cbp23st.csv` | Retail establishments, employment, and payroll |
-| U.S. Bureau of Economic Analysis (BEA) | State Quarterly GDP Summary (SQGDP1) | `SQGDP1__ALL_AREAS_2005_2026.csv` | Total state GDP |
-| U.S. Bureau of Economic Analysis (BEA) | GDP by State (SQGDP2) | `SQGDP2__ALL_AREAS_2005_2026.csv` | Retail Trade GDP and industry-level GDP |
+| Source                           | Dataset                                                                     | CSV File                                       | Purpose                                        |
+| -------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| U.S. Census Bureau               | American Community Survey (ACS) 2024 5-Year Estimates — Comparison Profiles | `ACS_2024_5Year_State_Comparison_Profiles.csv` | State population and demographic context       |
+| U.S. Census Bureau               | County Business Patterns (CBP) 2023 — State File                            | `cbp23st.csv`                                  | Retail establishments, employment, and payroll |
+| U.S. Bureau of Economic Analysis | State Quarterly GDP Summary (SQGDP1)                                        | `SQGDP1__ALL_AREAS_2005_2026.csv`              | Total state GDP                                |
+| U.S. Bureau of Economic Analysis | GDP by State (SQGDP2)                                                       | `SQGDP2__ALL_AREAS_2005_2026.csv`              | Retail Trade GDP and industry-level GDP        |
 
-### Official Source Websites
+### Official Data Sources
 
-- [U.S. Census Bureau — American Community Survey](https://www.census.gov/data/developers/data-sets/acs-5year/2024.html)
-- [U.S. Census Bureau — County Business Patterns](https://www.census.gov/data/datasets/2023/econ/cbp/2023-cbp.html)
-- [U.S. Bureau of Economic Analysis — Interactive Data](https://www.bea.gov/itable)
+* U.S. Census Bureau — American Community Survey
+* U.S. Census Bureau — County Business Patterns
+* U.S. Bureau of Economic Analysis — Interactive Data
 
-## Data Preparation and Cleaning
+---
+
+# Data Preparation and Cleaning
 
 The source datasets were downloaded from official U.S. government data sources and loaded into Snowflake RAW tables.
 
-The raw data was preserved as closely as possible to the original source data. Cleaning and standardization were performed through the dbt transformation layers rather than manually modifying the source files.
+The raw data was preserved as closely as possible to the original source data. Cleaning and standardization were performed through dbt transformation layers rather than manually modifying the source files.
 
 Key preparation steps included:
 
-- Standardizing state and geographic identifiers.
-- Cleaning quoted and inconsistent FIPS codes.
-- Converting source fields to appropriate analytical data types.
-- Preserving Census suppression and status codes in the CBP data.
-- Handling suppressed or unavailable values without treating them as zero.
-- Filtering the BEA datasets to the required geographic and industry records.
-- Reshaping quarterly GDP data into an analytical structure.
-- Calculating annual GDP from quarterly observations when all four quarters were available.
-- Aligning datasets to a common state and year grain.
+* Standardizing state and geographic identifiers.
+* Cleaning quoted and inconsistent FIPS codes.
+* Converting source fields to appropriate analytical data types.
+* Preserving Census suppression and status codes in CBP data.
+* Handling suppressed or unavailable values without treating them as zero.
+* Filtering BEA datasets to the required geographic and industry records.
+* Reshaping quarterly GDP data into an analytical structure.
+* Calculating annual GDP from quarterly observations when all four quarters were available.
+* Aligning datasets to a common state and year grain.
 
+---
 
-## Data Transformation
+# Data Transformation
 
-### Staging
+## STAGING
 
 The staging layer provides a clean and standardized representation of the raw Snowflake data.
 
 Staging models were created for:
 
-- ACS
-- County Business Patterns
-- SQGDP1
-- SQGDP2
+* ACS
+* County Business Patterns
+* SQGDP1
+* SQGDP2
 
-The staging layer handles source-specific cleaning, naming standardization, data type conversion, and filtering while maintaining a close relationship with the original source data.
+The staging layer handles:
 
-### Intermediate
+* Source-specific cleaning
+* Naming standardization
+* Data-type conversion
+* Geographic identifier standardization
+* Source-specific filtering
 
-The intermediate layer transforms the cleaned staging data into business-oriented datasets that can be used to build the final retail-market marts.
+The purpose of staging is to create a reliable representation of each source without introducing the main business logic.
 
-#### Grain
+---
 
-The intermediate models use different grains depending on the business purpose of each model:
+## INTERMEDIATE
+
+The intermediate layer transforms cleaned staging data into business-oriented datasets that can be used to build the final retail-market marts.
+
+### Model Grain
+
+Intermediate models use different grains depending on their business purpose.
 
 | Intermediate Model     | Grain                        |
 | ---------------------- | ---------------------------- |
@@ -217,39 +300,58 @@ The intermediate models use different grains depending on the business purpose o
 | `int_sqgdp2_retail`    | State × Year                 |
 | `int_retail_market`    | State × Year                 |
 
-The `int_cbp_retail` model retains the detailed retail-industry grain of **State × 6-digit NAICS × Year**, while the other intermediate models primarily operate at the **State × Year** level.
+The `int_cbp_retail` model retains the detailed retail-industry grain of:
 
-This layer performs the core business transformations and integration logic, including:
+```text
+State × 6-digit NAICS × Year
+```
+
+The other intermediate models primarily operate at:
+
+```text
+State × Year
+```
+
+### Business Transformations
+
+The intermediate layer performs the core business transformations and integration logic, including:
 
 * Aggregating County Business Patterns data from retail NAICS industries to the state level.
-* Calculating state-level retail establishments, employment, and payroll metrics.
+* Calculating state-level retail establishments, employment, and payroll.
 * Transforming quarterly BEA GDP data into annual state-level GDP measures.
 * Separating total state GDP from Retail Trade GDP.
-* Calculating the retail industry's share of total state GDP.
+* Calculating retail industry's share of total state GDP.
 * Standardizing geographic identifiers across Census Bureau and BEA datasets.
 * Joining retail business activity with state economic data.
 * Aligning datasets to a common state and year grain.
 * Creating derived productivity metrics such as employment per establishment and payroll per employee.
 
-The intermediate models provide the foundation for the marts by converting source-specific data into consistent business concepts while keeping the transformations modular and reusable.
+The intermediate layer converts source-specific data into consistent business concepts while keeping transformations modular and reusable.
 
+---
 
-### Marts
+# MARTS
 
-The marts layer transforms the intermediate business logic into curated, business-ready datasets designed for analysis and downstream consumption.
+The marts layer transforms intermediate business logic into curated, business-ready datasets designed for analysis and downstream consumption.
 
-#### Grain
+## Grain
 
-The mart models use a consistent **State × Year** grain.
+The mart models use a consistent:
+
+```text
+State × Year
+```
+
+grain.
 
 | Mart Model                 | Grain        | Purpose                               |
 | -------------------------- | ------------ | ------------------------------------- |
 | `mart_retail_state`        | State × Year | State-level retail business activity  |
 | `mart_retail_market_state` | State × Year | Integrated retail-market fundamentals |
 
-The marts layer combines and organizes the key retail and economic measures required to answer the project's business question.
+### Key Measures
 
-Key measures include:
+The marts contain key measures including:
 
 * Retail establishments
 * Retail employment
@@ -262,23 +364,31 @@ Key measures include:
 * Retail GDP per establishment
 * Retail GDP per retail employee
 
-The mart models provide a stable, business-friendly interface between the transformation layers and the Analytics and Tableau layers. They are designed to be easy for analysts and BI tools to consume without requiring knowledge of the underlying source-specific transformations.
+The marts provide a stable, business-friendly interface between transformation models and the Analytics and Tableau layers.
 
-### Analytics
+Analysts and BI tools can consume these models without needing to understand the underlying source-specific transformations.
 
-The analytics layer transforms the curated mart data into analysis-ready metrics and rankings that directly support the project's business question.
+---
 
-#### Grain
+# ANALYTICS
 
-The analytics model uses a **State × Year** grain.
+The Analytics layer transforms curated mart data into analysis-ready metrics and rankings that directly support the project's business question.
+
+## Grain
+
+The analytics model uses:
+
+```text
+State × Year
+```
 
 | Analytics Model                 | Grain        | Purpose                                                          |
 | ------------------------------- | ------------ | ---------------------------------------------------------------- |
 | `analytics_retail_market_state` | State × Year | Compare and rank U.S. states based on retail-market fundamentals |
 
-#### Final Analytical Output
+## Final Analytical Output
 
-The `analytics_retail_market_state` model contains the following columns:
+The `analytics_retail_market_state` model contains:
 
 | Column                                | Description                                    |
 | ------------------------------------- | ---------------------------------------------- |
@@ -299,11 +409,13 @@ The `analytics_retail_market_state` model contains the following columns:
 | `RETAIL_EMPLOYMENT_RANK`              | State ranking based on retail employment       |
 | `RETAIL_GDP_PER_EMPLOYEE_RANK`        | State ranking based on retail GDP per employee |
 
-#### Ranking Methodology
+---
+
+# Ranking Methodology
 
 The analytics model calculates three independent rankings using the SQL `RANK()` window function.
 
-##### 1. Retail GDP Share Rank
+## 1. Retail GDP Share Rank
 
 States are ranked by `RETAIL_GDP_SHARE` in descending order.
 
@@ -314,11 +426,13 @@ RANK() OVER (
 )
 ```
 
-A rank of **1** represents the state with the highest Retail Trade GDP as a percentage of total state GDP.
+A rank of 1 represents the state with the highest Retail Trade GDP as a percentage of total state GDP.
 
-This ranking measures the **relative importance of retail to the state's economy**.
+This measures the relative importance of retail to the state's economy.
 
-##### 2. Retail Employment Rank
+---
+
+## 2. Retail Employment Rank
 
 States are ranked by `RETAIL_EMPLOYMENT` in descending order.
 
@@ -329,11 +443,13 @@ RANK() OVER (
 )
 ```
 
-A rank of **1** represents the state with the largest retail workforce.
+A rank of 1 represents the state with the largest retail workforce.
 
-This ranking measures **retail-market scale in terms of employment**.
+This measures retail-market scale in terms of employment.
 
-##### 3. Retail GDP per Employee Rank
+---
+
+## 3. Retail GDP per Employee Rank
 
 States are ranked by `RETAIL_GDP_PER_RETAIL_EMPLOYEE` in descending order.
 
@@ -344,29 +460,41 @@ RANK() OVER (
 )
 ```
 
-A rank of **1** represents the state with the highest retail GDP generated per retail employee.
+A rank of 1 represents the state with the highest retail GDP generated per retail employee.
 
-This ranking provides a measure of **retail economic output per employee**.
+This provides a productivity perspective on retail economic output.
 
-#### Why Three Rankings?
+---
 
-The three rankings provide complementary perspectives on retail-market strength:
+## Why Three Rankings?
 
-* **Retail GDP Share** — How important is retail to the state's overall economy?
-* **Retail Employment** — How large is the state's retail workforce?
-* **Retail GDP per Employee** — How much economic output is generated per retail employee?
+The three rankings provide complementary perspectives:
 
-The analytics layer intentionally keeps these measures separate rather than combining them into a single composite score. This avoids introducing subjective weighting assumptions and allows users to evaluate retail-market strength from multiple perspectives.
+| Measure                     | Question                                                   |
+| --------------------------- | ---------------------------------------------------------- |
+| **Retail GDP Share**        | How important is retail to the state's overall economy?    |
+| **Retail Employment**       | How large is the state's retail workforce?                 |
+| **Retail GDP per Employee** | How much economic output is generated per retail employee? |
 
-The resulting analytics table is designed for direct consumption by Tableau and other business intelligence tools.
+The project intentionally keeps these measures separate rather than combining them into a single composite score.
 
-#### Annual Data Coverage
+This avoids introducing subjective weighting assumptions and allows users to evaluate retail-market strength from multiple perspectives.
 
-The underlying government datasets contain different periods of annual and quarterly data. However, the final integrated retail-market analysis is currently limited to **2023**.
+---
 
-The primary reason is that the County Business Patterns (CBP) retail business data used in this project is available for **2023**, while the BEA GDP datasets contain quarterly observations across multiple years.
+# Annual Data Coverage
 
-For the integrated analysis, the datasets are therefore aligned to a common **State × Year** grain for **2023**.
+The underlying government datasets contain different periods of annual and quarterly data.
+
+The final integrated retail-market analysis is currently limited to **2023** because the County Business Patterns retail business data used in the project is available for 2023, while the BEA GDP datasets contain quarterly observations across multiple years.
+
+The integrated datasets are therefore aligned to a common:
+
+```text
+State × Year
+```
+
+grain for 2023.
 
 | Data Component           | Source Coverage Used  | Role in Analysis                               |
 | ------------------------ | --------------------- | ---------------------------------------------- |
@@ -376,7 +504,9 @@ For the integrated analysis, the datasets are therefore aligned to a common **St
 | Retail Trade GDP         | BEA quarterly data    | Annualized Retail Trade GDP for 2023           |
 | Integrated Retail Market | 2023                  | Final state-level retail-market analysis       |
 
-For BEA GDP, annual values are calculated from the four quarterly observations for the calendar year:
+### GDP Annualization
+
+For BEA GDP data, annual values are calculated from the four quarterly observations for the calendar year:
 
 ```text
 Annual GDP = (Q1 + Q2 + Q3 + Q4) / 4
@@ -384,27 +514,48 @@ Annual GDP = (Q1 + Q2 + Q3 + Q4) / 4
 
 An annual GDP value is calculated only when all four quarterly observations are available.
 
-As a result, the current analytics output contains **51 state-level records for 2023**, representing the 50 U.S. states plus the District of Columbia.
+The current analytics output contains **51 state-level records for 2023**, representing the 50 U.S. states plus the District of Columbia.
 
-The multi-year BEA data provides an opportunity for future expansion of the project when comparable annual CBP retail business data is incorporated.
+The multi-year BEA data provides an opportunity for future expansion when comparable annual CBP retail business data is incorporated.
 
-## Data Quality and Testing
+---
 
-Data quality was treated as an integral part of the Analytics Engineering workflow. dbt tests were used to validate data integrity, model relationships, and business rules throughout the transformation pipeline.
+# Year Alignment Note
 
-The project includes **68 data tests** covering the staging, intermediate, marts, and analytics layers.
+The datasets do not all represent the same source year.
 
-Testing includes:
+* CBP retail business data used in the integrated analysis is from **2023**.
+* BEA GDP measures are calculated for **2023** from quarterly observations.
+* ACS uses the **2024 5-Year Estimates**.
 
-* **Not-null tests** — Ensures required fields contain values.
-* **Unique tests** — Ensures columns used as business keys or identifiers do not contain unexpected duplicates.
-* **Accepted-values tests** — Validates that fields contain only expected values.
-* **Relationship tests** — Validates referential integrity between related models.
-* **Business-key validation** — Confirms that models maintain their intended grain and uniqueness.
-* **Analytical ranking validation** — Confirms that the state rankings produce the expected number of distinct ranks.
+The ACS data is therefore treated as demographic context rather than as a directly equivalent 2023 business-year measure.
 
+---
 
-### Full Project Validation
+# Data Quality and Testing
+
+Data quality was treated as an integral part of the Analytics Engineering workflow.
+
+dbt tests validate:
+
+* Data integrity
+* Model relationships
+* Business rules
+* Model grain
+* Analytical ranking logic
+
+The project includes **68 data tests** across the staging, intermediate, marts, and analytics layers.
+
+## Testing Includes
+
+* **Not-null tests** — required fields contain values.
+* **Unique tests** — business keys and identifiers do not contain unexpected duplicates.
+* **Accepted-values tests** — fields contain expected values.
+* **Relationship tests** — referential integrity is maintained between related models.
+* **Business-key validation** — models maintain their intended grain and uniqueness.
+* **Analytical ranking validation** — state rankings produce the expected number of distinct ranks.
+
+## Full Project Validation
 
 The complete dbt project was validated using:
 
@@ -412,7 +563,7 @@ The complete dbt project was validated using:
 dbt build
 ```
 
-Final validation results:
+### Final Validation Results
 
 | Validation             | Result |
 | ---------------------- | -----: |
@@ -424,103 +575,208 @@ Final validation results:
 | Errors                 |      0 |
 | Skipped                |      0 |
 
-**Final result: 82/82 operations passed successfully.**
+### Final Result
+
+```text
+82 / 82 operations passed successfully
+```
 
 This provides confidence that the transformed datasets meet the defined structural, integrity, and business-rule requirements before being consumed by Tableau.
 
-The project also uses `dbt docs generate` to generate documentation and a data catalog for the models, sources, columns, and relationships in the dbt project.
+The project also uses:
 
-## Tableau Dashboard
-![Screenshot 2026-09-09 at 14.54.06.png](tableau/Screenshot%202026-09-09%20at%2014.54.06.png)
+```bash
+dbt docs generate
+```
 
-The dashboard presents U.S. state retail-market fundamentals for 2023,
-including retail GDP, employment, establishments, annual payroll,
-retail GDP share, and geographic distribution.
+to generate documentation and a data catalog for models, sources, columns, and relationships.
 
-## Key Findings
+---
+
+# Tableau Dashboard
+
+The dashboard presents U.S. state retail-market fundamentals for 2023.
+
+It includes:
+
+* Retail GDP
+* Retail employment
+* Retail establishments
+* Annual retail payroll
+* Retail GDP share
+* Geographic distribution
+* State-level rankings
+* Retail productivity measures
+
+The Tableau output is based on the final analytics dataset rather than directly querying the raw government data.
+
+---
+
+# Key Analytical Insights
 
 The 2023 analysis demonstrates that retail-market strength can be evaluated from multiple complementary perspectives rather than through a single measure.
 
-### 1. Retail is not equally important across state economies
+## 1. Retail is not equally important across state economies
 
-**Retail GDP Share** measures the contribution of Retail Trade to a state's overall GDP. States with higher retail GDP shares have a greater relative dependence on retail economic activity.
+Retail GDP Share measures the contribution of Retail Trade to a state's overall GDP.
 
-This provides a different perspective from simply comparing the total size of retail GDP.
+This provides a different perspective from simply comparing the absolute size of retail GDP.
 
-### 2. Retail-market scale varies substantially across states
+## 2. Retail-market scale varies across states
 
-**Retail Employment** provides an indication of the size of the retail workforce and therefore the scale of retail business activity within each state.
+Retail Employment provides an indication of the size of the retail workforce and therefore the scale of retail business activity within each state.
 
-The analysis allows states to be compared based on the size of their retail employment base rather than relying only on overall economic size.
+The analysis allows states to be compared based on retail employment rather than relying only on overall state economic size.
 
-### 3. Retail economic output per employee provides a productivity perspective
+## 3. Retail GDP per Employee provides a productivity perspective
 
-**Retail GDP per Retail Employee** measures retail economic output relative to the size of the retail workforce.
+Retail GDP per Retail Employee measures retail economic output relative to the size of the retail workforce.
 
-This provides an additional perspective on retail-market productivity and helps distinguish markets with large retail employment from markets that generate relatively high economic output per employee.
+This provides another perspective on retail-market productivity.
 
-### 4. No single metric fully defines retail-market strength
+## 4. No single metric fully defines retail-market strength
 
-The analysis intentionally maintains the three rankings separately:
+The project intentionally maintains three separate analytical dimensions:
 
 * **Retail GDP Share** — relative importance of retail to the state economy
 * **Retail Employment** — retail-market scale
 * **Retail GDP per Employee** — retail economic output per employee
 
-Rather than creating a subjective composite score, the project allows users to evaluate state retail markets according to different dimensions of market strength.
+Rather than creating a subjective composite score, the project allows users to evaluate state retail markets according to different dimensions.
 
-### Overall Finding
+### Overall Analytical Outcome
 
-The analysis demonstrates the value of integrating business activity and economic data into a common analytical model. Combining retail establishments, employment, payroll, and GDP measures provides a more complete view of state-level retail-market fundamentals than any individual metric alone.
+Integrating retail establishments, employment, payroll, and GDP measures provides a more complete view of state-level retail-market fundamentals than any individual metric alone.
 
+---
 
-## Technology Stack
+# Limitations
 
-This project uses a modern Analytics Engineering stack to transform public government data into a tested analytical dataset and business-facing dashboard.
+The current project has several analytical limitations that should be considered when interpreting the results:
 
-| Technology               | Purpose                                                              |
-| ------------------------ | -------------------------------------------------------------------- |
-| **Snowflake**            | Cloud data warehouse for storing and transforming project data       |
-| **dbt Core**             | Data transformation, modeling, testing, and documentation            |
-| **SQL**                  | Data cleaning, transformation, modeling, and analytical calculations |
-| **Python**               | Supporting data preparation and workflow tasks                       |
-| **Tableau**              | Interactive business intelligence and visualization                  |
-| **Git / GitHub**         | Version control and portfolio documentation                          |
-| **Government Open Data** | Source data from U.S. Census Bureau and Bureau of Economic Analysis  |
+* The integrated retail-market analysis currently focuses on **2023** because the CBP retail business data used in the project is available for that year.
+* ACS demographic context comes from the **2024 5-Year Estimates** and is not treated as a directly equivalent 2023 business-year measure.
+* Retail GDP is annualized from quarterly BEA observations.
+* Suppressed or unavailable CBP values are not automatically treated as zero.
+* The current project does not produce a single composite retail-market score.
+* The rankings describe different dimensions of retail-market activity and should not be interpreted as one overall measure of state economic performance.
+* Future versions could incorporate comparable multi-year CBP data to support trend analysis.
 
-### Analytics Engineering Practices
+---
 
-The project demonstrates several core Analytics Engineering practices:
+# Technology Stack
+
+| Technology               | Purpose                                                                 |
+| ------------------------ | ----------------------------------------------------------------------- |
+| **Snowflake**            | Cloud data warehouse for storing project data                           |
+| **dbt Core**             | Data transformation, modeling, testing, and documentation               |
+| **SQL**                  | Data cleaning, transformation, modeling, and analytical calculations    |
+| **Python**               | Supporting data preparation and workflow tasks                          |
+| **Tableau**              | Interactive business intelligence and visualization                     |
+| **Git / GitHub**         | Version control and portfolio documentation                             |
+| **Government Open Data** | Source data from the U.S. Census Bureau and Bureau of Economic Analysis |
+
+## Analytics Engineering Practices Demonstrated
 
 * Layered data modeling using **STAGING → INTERMEDIATE → MARTS → ANALYTICS**
 * Separation of raw data from transformed analytical models
 * Reusable SQL transformations with dbt
-* Data validation through automated dbt tests
-* Documentation and data lineage using dbt
-* Preservation of source suppression/status codes where appropriate
+* Automated data-quality testing
+* Model and column documentation
+* Data lineage through dbt
+* Preservation of source suppression/status codes
 * Business-oriented analytical modeling
+* Defined model grains
 * Separation of data transformation from BI visualization
+* BI-ready analytical outputs
 
-## Project Outcome
+---
 
-The project successfully transforms multiple U.S. government datasets into a unified state-level retail-market analytical model.
+# Quick Start
+
+## Requirements
+
+* Snowflake account
+* dbt Core
+* Python
+* Git
+* Tableau Public
+
+## Workflow
+
+### 1. Obtain the source data
+
+Download the required government CSV datasets from the U.S. Census Bureau and U.S. Bureau of Economic Analysis.
+
+### 2. Load the source data
+
+Load the source files into the appropriate Snowflake RAW tables.
+
+### 3. Configure dbt
+
+Configure the dbt profile for the Snowflake environment.
+
+### 4. Install dependencies
+
+Install the required Python and dbt dependencies defined by the project.
+
+### 5. Run the complete dbt project
+
+```bash
+dbt build
+```
+
+This executes the models and associated tests.
+
+### 6. Generate dbt documentation
+
+```bash
+dbt docs generate
+```
+
+### 7. Export the analytics model
+
+Export the final analytics model to CSV for downstream visualization.
+
+### 8. Open the Tableau workbook
+
+Open the Tableau workbook in Tableau Public/Desktop and connect it to the exported analytics dataset.
+
+---
+
+# Project Outcome
+
+The project transforms multiple U.S. government datasets into a unified, tested, state-level retail-market analytical model.
 
 The completed workflow demonstrates the ability to:
 
-1. Identify and assess appropriate public data sources
-2. Load raw government datasets into Snowflake
-3. Build a structured dbt transformation pipeline
-4. Create reusable STAGING, INTERMEDIATE, MARTS, and ANALYTICS models
-5. Apply automated data-quality testing throughout the pipeline
-6. Produce an analytics-ready state-level dataset
-7. Develop a business-facing Tableau dashboard
-8. Translate the resulting data into meaningful retail-market insights
+1. Identify and assess appropriate public data sources.
+2. Load raw government datasets into Snowflake.
+3. Build a structured dbt transformation pipeline.
+4. Create reusable STAGING, INTERMEDIATE, MARTS, and ANALYTICS models.
+5. Maintain defined model grains throughout the pipeline.
+6. Apply automated data-quality testing.
+7. Transform source-specific datasets into reusable business concepts.
+8. Produce an analytics-ready state-level dataset.
+9. Develop a business-facing Tableau dashboard.
+10. Translate data into multiple measurable dimensions of retail-market fundamentals.
 
-The final result is a reproducible Analytics Engineering workflow that connects **raw public data to business intelligence**.
+The final result is a reproducible Analytics Engineering workflow connecting:
 
-The project demonstrates practical skills in **SQL, Snowflake, dbt, data modeling, data quality, documentation, and Tableau**, with an emphasis on producing reliable analytical data for business decision-making.
+```text
+Public Government Data
+        ↓
+Snowflake
+        ↓
+dbt
+        ↓
+Tested Analytical Models
+        ↓
+Analytics Dataset
+        ↓
+Tableau
+        ↓
+Business Insights
+```
 
-
-
-
-
+The project demonstrates practical skills in **SQL, Snowflake, dbt, data modeling, data quality, documentation, Python, and Tableau**, with an emphasis on producing reliable analytical data for business analysis.
